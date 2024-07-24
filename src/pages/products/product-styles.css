@@ -1,0 +1,7 @@
+.form-group{
+    border:solid 0px red;
+    width:300px;
+}
+.form-group .input{
+    width:100%;
+}

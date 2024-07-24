@@ -16,23 +16,24 @@ import { NumericFormat } from 'react-number-format';
 
 // project import
 import Dot from 'components/@extended/Dot';
+import { EyeFilled ,DeleteTwoTone, EditFilled, EditTwoTone } from '@ant-design/icons';
 
 function createData(tracking_no, name, fat, carbs, protein) {
   return { tracking_no, name, fat, carbs, protein };
 }
 
-const rows = [
-  createData(84564564, 'Camera Lens', 40, 2, 40570),
-  createData(98764564, 'Laptop', 300, 0, 180139),
-  createData(98756325, 'Mobile', 355, 1, 90989),
-  createData(98652366, 'Handset', 50, 1, 10239),
-  createData(13286564, 'Computer Accessories', 100, 1, 83348),
-  createData(86739658, 'TV', 99, 0, 410780),
-  createData(13256498, 'Keyboard', 125, 2, 70999),
-  createData(98753263, 'Mouse', 89, 2, 10570),
-  createData(98753275, 'Desktop', 185, 1, 98063),
-  createData(98753291, 'Chair', 100, 0, 14001)
-];
+// const rows = [
+//   createData(84564564, 'Camera Lens', 40, 2, 40570),
+//   createData(98764564, 'Laptop', 300, 0, 180139),
+//   createData(98756325, 'Mobile', 355, 1, 90989),
+//   createData(98652366, 'Handset', 50, 1, 10239),
+//   createData(13286564, 'Computer Accessories', 100, 1, 83348),
+//   createData(86739658, 'TV', 99, 0, 410780),
+//   createData(13256498, 'Keyboard', 125, 2, 70999),
+//   createData(98753263, 'Mouse', 89, 2, 10570),
+//   createData(98753275, 'Desktop', 185, 1, 98063),
+//   createData(98753291, 'Chair', 100, 0, 14001)
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -60,43 +61,43 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: 'tracking_no',
-    align: 'left',
-    disablePadding: false,
-    label: 'Tracking No.'
-  },
-  {
-    id: 'name',
-    align: 'left',
-    disablePadding: true,
-    label: 'Product Name'
-  },
-  {
-    id: 'fat',
-    align: 'right',
-    disablePadding: false,
-    label: 'Total Order'
-  },
-  {
-    id: 'carbs',
-    align: 'left',
-    disablePadding: false,
+// const headCells = [
+//   {
+//     id: 'tracking_no',
+//     align: 'left',
+//     disablePadding: false,
+//     label: 'Tracking No.'
+//   },
+//   {
+//     id: 'name',
+//     align: 'left',
+//     disablePadding: true,
+//     label: 'Product Name'
+//   },
+//   {
+//     id: 'fat',
+//     align: 'right',
+//     disablePadding: false,
+//     label: 'Total Order'
+//   },
+//   {
+//     id: 'carbs',
+//     align: 'left',
+//     disablePadding: false,
 
-    label: 'Status'
-  },
-  {
-    id: 'protein',
-    align: 'right',
-    disablePadding: false,
-    label: 'Total Amount'
-  }
-];
+//     label: 'Status'
+//   },
+//   {
+//     id: 'protein',
+//     align: 'right',
+//     disablePadding: false,
+//     label: 'Total Amount'
+//   }
+// ];
 
 // ==============================|| ORDER TABLE - HEADER ||============================== //
 
-function OrderTableHead({ order, orderBy }) {
+function OrderTableHead({ order, orderBy ,headCells }) {
   return (
     <TableHead>
       <TableRow>
@@ -147,9 +148,9 @@ function OrderStatus({ status }) {
 
 // ==============================|| ORDER TABLE ||============================== //
 
-export default function OrderTable() {
+export default function OrderTable({headCells ,rows ,deleteProduct}) {
   const order = 'asc';
-  const orderBy = 'tracking_no';
+  const orderBy = 'id';
 
   return (
     <Box>
@@ -164,7 +165,7 @@ export default function OrderTable() {
         }}
       >
         <Table aria-labelledby="tableTitle">
-          <OrderTableHead order={order} orderBy={orderBy} />
+          <OrderTableHead order={order} orderBy={orderBy} headCells={headCells} />
           <TableBody>
             {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
               const labelId = `enhanced-table-checkbox-${index}`;
@@ -175,19 +176,28 @@ export default function OrderTable() {
                   role="checkbox"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   tabIndex={-1}
-                  key={row.tracking_no}
+                  key={row.id}
                 >
                   <TableCell component="th" id={labelId} scope="row">
-                    <Link color="secondary"> {row.tracking_no}</Link>
+                    <Link color="secondary"> {row.id}</Link>
                   </TableCell>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell>{row.price}</TableCell>
                   <TableCell>
-                    <OrderStatus status={row.carbs} />
+                    {/* <OrderStatus status={row.quantity} /> */}
+                    {row.quantity}
                   </TableCell>
-                  <TableCell align="right">
-                    <NumericFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
+                  <TableCell>{row.colour}</TableCell>
+
+                  <TableCell style={{display:'flex' ,justifyContent:'space-around' ,cursor:'pointer'}}>
+                    <EyeFilled title="view " />
+                    <DeleteTwoTone title="delete " onClick={()=>deleteProduct(row.id)} />
+                    <EditTwoTone title="update" />
                   </TableCell>
+
+                  {/* <TableCell align="right">
+                    <NumericFormat value={row.price} displayType="text" thousandSeparator prefix="CFA" />
+                  </TableCell> */}
                 </TableRow>
               );
             })}
