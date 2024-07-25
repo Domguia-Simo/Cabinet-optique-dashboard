@@ -3,7 +3,7 @@ import React ,{useState ,useEffect} from 'react'
 import MainCard from 'components/MainCard'
 import OrderTable from 'pages/dashboard/OrdersTable'
 import { Button, Input, InputLabel ,Modal,OutlinedInput  } from '@mui/material';
-import { SearchOutlined ,ArrowLeftOutlined } from '@ant-design/icons';
+import { SearchOutlined ,ArrowLeftOutlined, CloseCircleTwoTone } from '@ant-design/icons';
 import { HOST_NAME } from 'config';
 import './product-styles.css'
 import loader from '../../assets/images/loading.gif' 
@@ -64,6 +64,7 @@ const ManageProducts = () => {
     const [error ,setError] = useState('')
     const [msg ,setMsg] = useState('')
     const [search ,setSearch] = useState('')
+    const [modal ,setModal] = useState(false)
 
 // Getting the products 
     useEffect(()=>{
@@ -150,11 +151,17 @@ if(!createActive){
             <MainCard title="Product Management">
 
             <Modal
-                open={true}
+                open={modal}
                 onClose={()=>{}}
             >
-                <div>
-                    The modal
+                <div  className='product-modal'>
+                    <div className='product-modal-head'>
+                        <span>Product name</span>
+                        <span style={{cursor:'pointer'}} onClick={()=>setModal(false)} > <CloseCircleTwoTone/> </span>
+                    </div>
+                    <div className='product-modal-body'>
+                        The modal
+                    </div>
                 </div>
    
             </Modal>
@@ -170,7 +177,7 @@ if(!createActive){
 
                 <br/>
 
-                <OrderTable headCells={headCells} rows={products} deleteProduct={deleteProduct}/>
+                <OrderTable headCells={headCells} rows={products} deleteProduct={deleteProduct} setModal={setModal} />
 
             </MainCard>
 

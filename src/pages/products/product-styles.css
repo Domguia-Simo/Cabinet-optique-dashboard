@@ -5,3 +5,28 @@
 .form-group .input{
     width:100%;
 }
+
+.product-modal{
+    position: absolute;
+    border:solid 1px grey ;
+    background-color:white ;
+    width:fit-content ;
+    /* padding:20px; */
+    top:25%;
+    left:50%;
+    transform: translateX(-50%);
+    border-radius:5px ;
+}
+
+.product-modal-head{
+    display: flex;
+    justify-content: space-between;
+    border-bottom:solid 1px grey;
+    padding:10px;
+    font-size:large
+}
+
+.product-modal-body{
+    padding:20px;
+    min-width:300px
+}
