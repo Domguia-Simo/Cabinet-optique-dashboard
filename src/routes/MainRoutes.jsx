@@ -5,6 +5,9 @@ import Loadable from 'components/Loadable';
 import Dashboard from 'layout/Dashboard';
 import ManageProducts from 'pages/products/Product';
 import Consultation from 'pages/Consultations/Consultation';
+import Transaction from 'pages/Transactions/Transaction';
+import Messages from 'pages/Messages/Message';
+import Setting from 'pages/Settings/Setting';
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
@@ -35,15 +38,15 @@ const MainRoutes = {
     },
     {
       path:'/manage-transaction',
-      element:()=><div>Transaction page</div>
+      element:<Transaction/>
     },
     {
       path:"/manage-message",
-      element:()=><div>Message page</div>
+      element:<Messages/>
     },
     {
       path:"/settings",
-      element:()=><div>Setting page</div>
+      element:<Setting/>
     },
 
 
