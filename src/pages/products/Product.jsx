@@ -4,7 +4,7 @@ import MainCard from 'components/MainCard'
 import OrderTable from 'pages/dashboard/OrdersTable'
 import { Button, Hidden, Input, InputLabel ,Modal,OutlinedInput  } from '@mui/material';
 import { SearchOutlined ,ArrowLeftOutlined, CloseCircleTwoTone, PlusSquareTwoTone } from '@ant-design/icons';
-import { HOST_NAME } from 'config';
+// import { HOST } from 'config';
 import './product-styles.css'
 import loader from '../../assets/images/loading.gif' 
 
@@ -70,28 +70,31 @@ const ManageProducts = () => {
 // Getting the products 
     useEffect(()=>{
         async function getProducts(){
-            // console.log(`${HOST_NAME}/product/get-product`)
+            // console.log(`http://localhost:8080/product/get-product`)
+            setLoading(true)
             try{
-                const response = await fetch(`${HOST_NAME}/product/get-products`)
+                const response = await fetch(`http://localhost:8080/product/get-products`)
                 if(response.ok){
                     const data = await response.json()
-                    // console.log(data)
+                    console.log(data)
                     setProducts(data)
                 }
             }
             catch(e){
                 console.log(e)
                 setError("Internet error")
+            }finally{
+                setLoading(false)
             }
         }
         getProducts()
     },[0])
 
-
+console.log(products)
 // Product Deletion
 async function deleteProduct(id){
     try{
-        const response = await fetch(`${HOST_NAME}/product/delete-product/${id}`,{
+        const response = await fetch(`http://localhost:8080/product/delete-product/${id}`,{
             method:'delete',
         })
         if(response.ok){
@@ -121,7 +124,7 @@ async function submitForm(){
     }
     try{
         setLoading(true)
-        const response = await fetch(`${HOST_NAME}/product/create-product` ,{
+        const response = await fetch(`http://localhost:8080/product/create-product` ,{
             method:'post',
             headers:{
                 'content-type':'application/json'
@@ -138,7 +141,7 @@ async function submitForm(){
                     for(let i=0;i<files.length;i++){
                         formData.append("image" ,files[i])
                     }                    
-                    await fetch(`${HOST_NAME}/product/upload-product-image/${data.product_id}` ,{
+                    await fetch(`http://localhost:8080/product/upload-product-image/${data.product_id}` ,{
                         method:'post',
                         body:formData
                     })
@@ -214,7 +217,7 @@ if(!createActive){
                             <div style={{display:'flex' ,gap:'10px' ,overflowY:'hidden' ,overflowX:'auto'}}>
                                 {
                                     modal.image.split("*").map((img ,index) => {
-                                        return <img src={`${HOST_NAME}/${img}`} />
+                                        return <img src={`"htt://localhost:8080"}{img}`} style={{width:'125px' ,height:'125px' ,border:'solid 1px grey' ,borderRadius:'5px'}} />
                                     })
                                 }
                             </div><br/>
@@ -253,8 +256,11 @@ if(!createActive){
                 </div>
 
                 <br/>
-
-                <OrderTable headCells={headCells} rows={products} deleteProduct={deleteProduct} setModal={setModal} />
+                {
+                    !loading ?
+                    <OrderTable headCells={headCells} rows={products} deleteProduct={deleteProduct} setModal={setModal} />:
+                    <div style={{display:'flex' ,justifyContent:'center' ,padding:'30px'}} >Loading ...</div>
+                }
 
             </MainCard>
 
