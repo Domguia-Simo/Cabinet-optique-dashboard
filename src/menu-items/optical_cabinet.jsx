@@ -31,7 +31,7 @@ const optical_cabinet = {
     },
     {
         id: 'manage-transaction',
-        title: 'Transactions',
+        title: 'Order | Transactions',
         type: 'item',
         url: '/manage-transaction',
         icon: DatabaseFilled,  

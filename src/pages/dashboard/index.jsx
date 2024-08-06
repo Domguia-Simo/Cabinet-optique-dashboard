@@ -30,6 +30,10 @@ import avatar2 from 'assets/images/users/avatar-2.png';
 import avatar3 from 'assets/images/users/avatar-3.png';
 import avatar4 from 'assets/images/users/avatar-4.png';
 
+import React ,{useState ,useEffect} from 'react'
+import { useNavigate } from 'react-router';
+
+
 // avatar style
 const avatarSX = {
   width: 36,
@@ -50,7 +54,127 @@ const actionSX = {
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 export default function DashboardDefault() {
+  
+  const [summary ,setSummary] = useState({
+    product:0 ,consultation:0 ,message:0,order:0,users:0
+  })
+  const [loading ,setLoading] = useState(false)
+  const [error ,setError] = useState(false)
+  const navigate = useNavigate()
+  
+  const objects = [
+    {
+      title:"Users",
+      link:"",
+      total:summary.users,
+      color:'orange'
+    },
+    {
+      title:"Products",
+      link:"/manage-product",
+      total:summary.product,
+      color:'blue'
+    },
+    {
+      title:"Consultations",
+      link:"/manage-consultation",
+      total:summary.consultation,
+      color:'green'
+    },
+    {
+      title:"Order | Transaction",
+      link:"/manage-transaction",
+      total:summary.order,
+      color:'red'
+    },
+    {
+      title:"Messages",
+      link:"/manage-message",
+      total:summary.message,
+      color:'magenta'
+    },
+  ]
+
+  useEffect(()=>{
+    async function getSummary(){
+        setLoading(true)
+        setError(false)
+      try{
+        const response = await fetch(`http://localhost:8080/user/get-summary`)
+        const data = await response.json()
+        console.log(data)
+        setSummary({order:data.orders ,users:data.users ,consultation:data.consultations ,product:data.products ,message:data.messages})
+      }
+      catch(e){
+        console.log(e)
+        setError("Connection problem")
+        setLoading(false)
+  
+      }finally{
+        setLoading(false)
+      }
+
+    }
+    getSummary()
+  },[0])
+
   return (
+    <>
+    {/* New */}
+      {/* Welcome msg */}
+      <div style={{padding:'20px'}}>
+       <h1>Welcome Administrator <em>Z</em></h1>
+      </div>
+
+      {/* Products Info */}
+      <div style={{border:'solid 0px green' ,padding:'5px'}}>
+        <h2>Summary</h2>
+
+        {/* Each center entity */}
+      <div style={{border:'solid 0px red' ,display:'flex' ,flexWrap:'wrap' ,padding:'5px' ,gap:'20px'}}>
+
+      {
+      !loading  ? 
+      <>
+        {objects.map((obj ,index) => {
+          return  ( 
+          <div 
+            key={index}
+            onClick={()=>{navigate(`${obj.link}`)}}
+            style={{
+              border:'solid 1px rgba(1,1,1 ,0.2)',borderRadius:'5px' ,padding:'5px 30px' ,
+              backgroundColor:'white',cursor:'pointer' ,alignItems:'center'
+            }}
+
+          >
+          <h3>{obj.title} </h3>
+          <span style={{fontFamily:'monospace'}}> 
+            Total {obj.total}&nbsp; 
+            <i style={{position:'absolute',width:'7px',height:'7px',backgroundColor:obj.color}}></i> 
+          </span>
+        </div>)
+
+        })}
+      </>
+        :
+        <div style={{margin:'auto'}}>
+          Loading ...
+        </div>
+    }
+
+    {/* {error && !loading && error} */}
+
+      </div>
+
+      </div>
+      <br/>
+      <div style={{border:'solid 1px rgba(0,00,0,0.2)' ,width:'70%' ,margin:'auto'}}>
+        {/* <MonthlyBarChart /> */}
+      </div>
+
+
+
+{/* Old */}
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
       {/* <Grid item xs={12} sx={{ mb: -2.25 }}>
@@ -242,5 +366,7 @@ export default function DashboardDefault() {
         </MainCard>
       </Grid> */}
     </Grid>
+    </>
+
   );
 }

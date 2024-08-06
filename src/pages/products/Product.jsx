@@ -217,7 +217,7 @@ if(!createActive){
                             <div style={{display:'flex' ,gap:'10px' ,overflowY:'hidden' ,overflowX:'auto'}}>
                                 {
                                     modal.image.split("*").map((img ,index) => {
-                                        return <img src={`"htt://localhost:8080"}{img}`} style={{width:'125px' ,height:'125px' ,border:'solid 1px grey' ,borderRadius:'5px'}} />
+                                        return <img src={`http://localhost:8080/${img}`} style={{width:'125px' ,height:'125px' ,border:'solid 1px grey' ,borderRadius:'5px'}} />
                                     })
                                 }
                             </div><br/>
