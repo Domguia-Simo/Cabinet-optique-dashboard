@@ -57,8 +57,11 @@ const ManageProducts = () => {
         colour:'',
         size:'',
         type:'',
-        price:''
+        price:'',
+        id:undefined
     })
+    const [edit ,setEdit] = useState(false)
+
     const [files ,setFiles] = useState([])
     const [viewFiles ,setViewFiles] = useState([])
     const [loading ,setLoading] = useState(false)
@@ -66,6 +69,7 @@ const ManageProducts = () => {
     const [msg ,setMsg] = useState('')
     const [search ,setSearch] = useState('')
     const [modal ,setModal] = useState(false)
+
 
 // Getting the products 
     useEffect(()=>{
@@ -76,7 +80,7 @@ const ManageProducts = () => {
                 const response = await fetch(`http://localhost:8080/product/get-products`)
                 if(response.ok){
                     const data = await response.json()
-                    console.log(data)
+                    // console.log(data)
                     setProducts(data)
                 }
             }
@@ -90,7 +94,7 @@ const ManageProducts = () => {
         getProducts()
     },[0])
 
-console.log(products)
+// console.log(products)
 // Product Deletion
 async function deleteProduct(id){
     try{
@@ -167,6 +171,28 @@ async function submitForm(){
         setLoading(false)
     }
 }
+
+
+// Updating the product
+async function updateProduct(){
+    try{
+        const response = await fetch(`http://localhost:8080/product/update-product` ,{
+            method:'put',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify({})
+        })
+    }
+    catch(e){
+
+    }
+} 
+ const setUpdateItem =(item)=>{
+    setEdit(true)
+    setCreateActive(true)
+    setInfo(item)
+ }
 
 
 function handleFiles(e){
@@ -252,13 +278,19 @@ if(!createActive){
                     <Input type="text" placeholder='Search for an item' onChange={e=>setSearch(e.target.value)} />
                         <SearchOutlined/>
                     </div>
-                    <Button onClick={()=>setCreateActive(true)}>Create product</Button>
+                    <Button onClick={()=>setCreateActive(true)} style={{border:'solid 1px rgba(0,0,0,0.3)' ,fontWeight:'bold'}} >Create product </Button>
                 </div>
 
                 <br/>
                 {
                     !loading ?
-                    <OrderTable headCells={headCells} rows={products} deleteProduct={deleteProduct} setModal={setModal} />:
+                    <OrderTable 
+                        headCells={headCells} 
+                        rows={products} 
+                        deleteProduct={deleteProduct} 
+                        setModal={setModal} 
+                        setUpdateItem={setUpdateItem}
+                    />:
                     <div style={{display:'flex' ,justifyContent:'center' ,padding:'30px'}} >Loading ...</div>
                 }
 
@@ -275,7 +307,8 @@ if(!createActive){
 
                 <div style={{display:'flex' ,border:'solid 0px red' ,justifyContent:'space-around'}}>
                     <h3>Product Creation Form</h3>
-                    <Button onClick={()=>setCreateActive(false)}> <ArrowLeftOutlined/> &nbsp;  View Product(s)</Button>
+                    <Button onClick={()=>setCreateActive(false)} style={{border:'solid 1px rgba(0,0,0,0.3)' ,fontWeight:'bold'}} >
+                         <ArrowLeftOutlined/> &nbsp;  View Product({'s'.toLowerCase()})</Button>
                 </div>
 
                 <br/>
@@ -284,28 +317,28 @@ if(!createActive){
                 style={{border:'solid 0px grey' ,margin:'auto' ,display:'flex' ,flexDirection:'column' ,rowGap:'10px' ,alignItems:'center'}}>
                     <div className='form-group'>
                         <InputLabel>Product name</InputLabel>
-                        <OutlinedInput className='input' type="text" required  onChange={e=>{console.log(e.target.value);setInfo({...info ,name:e.target.value})}} />
+                        <OutlinedInput  value={info.name} className='input' type="text" required  onChange={e=>{console.log(e.target.value);setInfo({...info ,name:e.target.value})}} />
                     </div>
 
                     <div className='form-group'>
                         <InputLabel> Price</InputLabel>
-                        <OutlinedInput className='input' type="number" required onChange={e=>setInfo({...info ,price:e.target.value})} />
+                        <OutlinedInput  value={info.price} className='input' type="number" required onChange={e=>setInfo({...info ,price:e.target.value})} />
                     </div>
 
                     <div className='form-group'>
                         <InputLabel>Colour</InputLabel>
-                        <OutlinedInput className='input' type="text" required onChange={e=>setInfo({...info ,colour:e.target.value})} />
+                        <OutlinedInput value={info.colour} className='input' type="text" required onChange={e=>setInfo({...info ,colour:e.target.value})} />
                     </div>
 
                     <div className='form-group'>
                         <InputLabel>Size</InputLabel>
-                        <OutlinedInput className='input' type="text" required onChange={e=>setInfo({...info ,size:e.target.value})} />
+                        <OutlinedInput value={info.size} className='input' type="text" required onChange={e=>setInfo({...info ,size:e.target.value})} />
                     </div>
 
-                    <div style={{cursor:'pointer'}}>
+                    { !edit && <div style={{cursor:'pointer'}}>
                     <InputLabel htmlFor="file" style={{padding:'20px 0px' ,cursor:'pointer'}}>Select images <PlusSquareTwoTone/> </InputLabel>
                     <input  id="file" className='input' type="file" multiple required onChange={e=>handleFiles(e)}  style={{display:'none'}}  />
-                    </div>
+                    </div>}
 
                     {/* Images section */}
                     <div style={{display:'flex' ,gap:'10px'}}>
@@ -327,7 +360,7 @@ if(!createActive){
 
                     <div style={{ display:'flex',gap:'30px'}}>
                         <Button onClick={()=>setInfo({name:'' ,price:'' ,colour:'' ,type:''})}>Reset</Button>
-                        <Button onClick={(e)=>submitForm()}>Submit {loading && <img src={loader} />} </Button>
+                        <Button onClick={(e)=>submitForm()}> {!edit ? 'Submit':'Update'} {loading && <img src={loader} />} </Button>
 
                     </div>
 

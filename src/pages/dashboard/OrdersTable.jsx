@@ -148,7 +148,7 @@ function OrderStatus({ status }) {
 
 // ==============================|| ORDER TABLE ||============================== //
 
-export default function OrderTable({headCells ,rows ,deleteProduct ,setModal}) {
+export default function OrderTable({headCells ,rows ,deleteProduct ,setModal ,setUpdateItem}) {
   const order = 'asc';
   const orderBy = 'id';
 
@@ -191,8 +191,8 @@ export default function OrderTable({headCells ,rows ,deleteProduct ,setModal}) {
 
                   <TableCell style={{display:'flex' ,justifyContent:'space-around' ,cursor:'pointer'}}>
                     <EyeFilled title="view " onClick={()=>setModal(row)}/>
-                    <DeleteTwoTone title="delete " style={{color:'red'}} onClick={()=>deleteProduct(row.id)} />
-                    <EditTwoTone title="update" />
+                    <DeleteTwoTone title="delete " color='red' onClick={()=>deleteProduct(row.id)} />
+                    <EditTwoTone title="update" onClick={()=>{setUpdateItem(row)}} />
                   </TableCell>
 
                   {/* <TableCell align="right">
