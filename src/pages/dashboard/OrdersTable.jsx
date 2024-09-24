@@ -191,8 +191,8 @@ export default function OrderTable({headCells ,rows ,deleteProduct ,setModal}) {
 
                   <TableCell style={{display:'flex' ,justifyContent:'space-around' ,cursor:'pointer'}}>
                     <EyeFilled title="view " onClick={()=>setModal(row)}/>
-                    <DeleteTwoTone title="delete " onClick={()=>deleteProduct(row.id)} />
-                    {/* <EditTwoTone title="update" /> */}
+                    <DeleteTwoTone title="delete " style={{color:'red'}} onClick={()=>deleteProduct(row.id)} />
+                    <EditTwoTone title="update" />
                   </TableCell>
 
                   {/* <TableCell align="right">

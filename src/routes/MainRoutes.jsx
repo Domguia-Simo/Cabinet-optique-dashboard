@@ -8,6 +8,7 @@ import Consultation from 'pages/Consultations/Consultation';
 import Transaction from 'pages/Transactions/Transaction';
 import Messages from 'pages/Messages/Message';
 import Setting from 'pages/Settings/Setting';
+import Analytics from 'pages/analytics/Analytics';
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
@@ -39,6 +40,10 @@ const MainRoutes = {
     {
       path:'/manage-transaction',
       element:<Transaction/>
+    },
+    {
+      path:"/analytics",
+      element:<Analytics/>
     },
     {
       path:"/manage-message",

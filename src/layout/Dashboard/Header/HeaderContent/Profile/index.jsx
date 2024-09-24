@@ -91,7 +91,7 @@ export default function Profile() {
         <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
           <Avatar alt="profile user" src={avatar1} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            John Doe
+            Z
           </Typography>
         </Stack>
       </ButtonBase>
@@ -126,7 +126,7 @@ export default function Profile() {
                           <Stack>
                             <Typography variant="h6">John Doe</Typography>
                             <Typography variant="body2" color="text.secondary">
-                              UI/UX Designer
+                              Full Stack developer
                             </Typography>
                           </Stack>
                         </Stack>
@@ -155,7 +155,7 @@ export default function Profile() {
                         label="Profile"
                         {...a11yProps(0)}
                       />
-                      <Tab
+                      {/* <Tab
                         sx={{
                           display: 'flex',
                           flexDirection: 'row',
@@ -166,7 +166,7 @@ export default function Profile() {
                         icon={<SettingOutlined style={{ marginBottom: 0, marginRight: '10px' }} />}
                         label="Setting"
                         {...a11yProps(1)}
-                      />
+                      /> */}
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0} dir={theme.direction}>

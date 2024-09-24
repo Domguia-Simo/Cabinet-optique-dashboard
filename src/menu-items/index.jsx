@@ -8,7 +8,9 @@ import optical_cabinet from './optical_cabinet'
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, optical_cabinet,pages, utilities, support]
+  // items: [dashboard, optical_cabinet,pages, utilities, support]
+  items: [dashboard, optical_cabinet,pages]
+
 };
 
 export default menuItems;

@@ -1,5 +1,5 @@
 // assets
-import { LoginOutlined, ProfileOutlined ,SettingOutlined ,MessageOutlined ,EditOutlined ,ContactsOutlined ,DatabaseFilled } from '@ant-design/icons';
+import { LoginOutlined, ProfileOutlined ,SettingOutlined ,MessageOutlined ,EditOutlined ,ContactsOutlined ,DatabaseFilled, DatabaseOutlined, BarChartOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
@@ -36,6 +36,13 @@ const optical_cabinet = {
         url: '/manage-transaction',
         icon: DatabaseFilled,  
     },
+    {
+      id: 'analytics',
+      title: 'Analytics',
+      type: 'item',
+      url: '/analytics',
+      icon: BarChartOutlined,  
+  },
     {
         id: 'manage-messages',
         title: 'Messages',
